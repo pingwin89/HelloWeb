@@ -35,4 +35,11 @@ public class StudentController {
       model.addAttribute("id", student.getId());
       return "result";
    }
+
+	 @RequestMapping(value="/redirect", method=RequestMethod.GET)
+	 public String redirect(ModelMap model){
+			model.addAttribute("message", "redirected");
+			return "db";
+	 }
+
 }

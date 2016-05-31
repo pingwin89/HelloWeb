@@ -27,5 +27,8 @@
     </tr>
 </table>  
 </form:form>
+<form:form method="GET" action="/HelloWeb/redirect">
+<input type="submit" value="Database"/>
+</form:form>
 </body>
 </html>
