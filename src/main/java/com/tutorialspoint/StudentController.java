@@ -1,6 +1,7 @@
 package com.tutorialspoint;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,12 +17,22 @@ public class StudentController {
    }
    
    @RequestMapping(value = "/addStudent", method = RequestMethod.POST)
-   public String addStudent(@ModelAttribute("SpringWeb")Student student, 
+	 @ExceptionHandler({SpringException.class})
+   public String addStudent(@ModelAttribute("HelloWeb")Student student, 
    ModelMap model) {
-      model.addAttribute("name", student.getName());
-      model.addAttribute("age", student.getAge());
+			if(student.getName().length()<5){
+				throw new SpringException("Minimum 5 characters for a name");
+			}
+			else{
+	      model.addAttribute("name", student.getName());
+			}
+			if(student.getAge()<10){
+				throw new SpringException("Required age over 10");      
+			}
+			else{
+				model.addAttribute("age", student.getAge());
+			}
       model.addAttribute("id", student.getId());
-      
       return "result";
    }
 }
