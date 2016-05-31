@@ -11,6 +11,12 @@ import org.springframework.ui.ModelMap;
 @Controller
 public class StudentController {
 
+	 private StudentJDBCTemplate studentJDBCTemplate;
+
+	 public void setStudentJDBCTemplate(StudentJDBCTemplate studentJDBCTemplate){
+	 	this.studentJDBCTemplate=studentJDBCTemplate;
+   }
+
    @RequestMapping(value = "/student", method = RequestMethod.GET)
    public ModelAndView student() {
       return new ModelAndView("student", "command", new Student());
@@ -38,7 +44,14 @@ public class StudentController {
 
 	 @RequestMapping(value="/redirect", method=RequestMethod.GET)
 	 public String redirect(ModelMap model){
-			model.addAttribute("message", "redirected");
+				Student student;
+			try{
+				student = studentJDBCTemplate.getStudent(0);
+			}
+			catch(Exception e){
+				throw new SpringException(e.toString());
+			}			
+			model.addAttribute("message", student.getName());
 			return "db";
 	 }
 
